@@ -1,10 +1,12 @@
 ﻿namespace lab_1.Dtos.RequestDtos
 {
-    public class AuthorResponseDto:BaseRequestDto
+    public class AuthorRequestDto:BaseRequestDto
     {
-        private string _login;
-        private string _password;
-        private string _firstname;
-        private string _lastname;
+        public string? _login;
+        public string? _password;
+        public string? _firstname;
+        public string? _lastname;
     }
+
+
 }

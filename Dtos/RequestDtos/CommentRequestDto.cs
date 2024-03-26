@@ -2,7 +2,7 @@
 {
     public class CommentRequestDto : BaseRequestDto
     {
-        private long _storyId;
-        private string _content;
+        public long _storyId;
+        public string? _content;
     }
 }

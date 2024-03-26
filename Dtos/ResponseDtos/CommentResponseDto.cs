@@ -2,7 +2,7 @@
 {
     public class CommentResponseDto:BaseResponseDto
     {
-        private long _storyId;
-        private string _content;
+        public long _storyId;
+        public string? _content;
     }
 }

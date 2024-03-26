@@ -2,6 +2,6 @@
 {
     public class MarkerResponseDto:BaseResponseDto
     {
-        private string _name;
+        public string _name;
     }
 }

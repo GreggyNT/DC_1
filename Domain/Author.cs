@@ -7,7 +7,7 @@
         private string _firstname;
         private string _lastname;
 
-        public Author(long id, string login, string password, string firstname, string lastname) : base(id)
+        public Author(long? id, string login, string password, string firstname, string lastname) : base(id)
         {  
                 _login = login;
                 _password = password;

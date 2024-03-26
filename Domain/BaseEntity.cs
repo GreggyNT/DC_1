@@ -4,10 +4,10 @@ namespace lab_1.Domain
 {
     public class BaseEntity
     {
-        protected long _id;
-        public long Id { get => _id; }
+        protected long? _id;
+        public long? Id { get => _id; }
 
-        public BaseEntity(long id) 
+        public BaseEntity(long? id) 
         {
             _id = id;
         }
