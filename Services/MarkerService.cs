@@ -10,7 +10,7 @@ namespace lab_1.Services
             throw new NotImplementedException();
         }
 
-        public long Delete(long id)
+        public void Delete(long id)
         {
             throw new NotImplementedException();
         }

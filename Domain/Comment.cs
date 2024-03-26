@@ -5,7 +5,7 @@
         private long _storyId;
         private string _content;
 
-        public Comment(long id,long storyId, string content) :base(id) 
+        public Comment(long? id,long storyId, string content) :base(id) 
         {
             _storyId = storyId;
             _content = content;

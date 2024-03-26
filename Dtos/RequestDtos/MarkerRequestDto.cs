@@ -2,6 +2,6 @@
 {
     public class MarkerRequestDto : BaseRequestDto
     {
-        public string? _name;
+        public string? _name { get; set; }
     }
 }

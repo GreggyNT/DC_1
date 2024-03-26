@@ -9,30 +9,36 @@ namespace lab_1.Services
 {
     public class AuthorService : BaseService<AuthorRequestDto, AuthorResponseDto>
     {
-        Repository<Author> authors = new();
+
+        Repository<Author> authors;
         AuthorRequestConverter authorRequest;
         AuthorResponseConverter authorResponse;
-        ListAuthorResponseConverter converter = new ListAuthorResponseConverter();
-
+        ListAuthorResponseConverter converter;
+        public AuthorService() 
+        {
+            authors = new Repository<Author>();
+            authorRequest = new AuthorRequestConverter();
+            authorResponse = new AuthorResponseConverter();
+            converter = new ListAuthorResponseConverter();
+        }
         public AuthorResponseDto Create(AuthorRequestDto dto)
         {
            authors.AddValue(authorRequest.FromDto(dto, authors.NextId));
-           return authorResponse.ToDto(authors.FindById(authors.NextId-2));
+           return authorResponse.ToDto(authors.FindById(authors.NextId-1));
         }
 
-        public long Delete(long id)
+        public void Delete(long id)
         {
-            throw new NotImplementedException();
+            authors.DeleteValue(id);
         }
 
-        public AuthorResponseDto? Read(long id)
-        {
-            throw new NotImplementedException();
-        }
+        public AuthorResponseDto? Read(long id)=>authorResponse.ToDto(authors.FindById(id));
+        
 
         public AuthorResponseDto Update(AuthorRequestDto dto)
         {
-            throw new NotImplementedException();
+            authors.UpdateValue(authorRequest.FromDto(dto, dto.id), dto.id);
+            return authorResponse.ToDto(authors.FindById(dto.id));
         }
 
         public List<AuthorResponseDto> GetAll() => converter.AuthorsResponse(authors.GetAuthors()).ToList();

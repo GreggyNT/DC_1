@@ -1,33 +1,47 @@
-﻿using lab_1.Dtos.RequestDtos;
+﻿using lab_1.Domain;
+using lab_1.Dtos.RequestDtos;
+using lab_1.Dtos.RequestDtos.RequestConverters;
 using lab_1.Dtos.ResponseDtos;
+using lab_1.Dtos.ResponseDtos.ResponseConverters;
+using lab_1.Repositories;
+using System.Xml.Linq;
 
 namespace lab_1.Services
 {
     public class CommentService : BaseService<CommentRequestDto, CommentResponseDto>
     {
-        public CommentResponseDto Create(CommentRequestDto dto)
+
+        Repository<Comment> comments;
+        CommentRequestConverter commentRequest;
+        CommentResponseConverter commentResponse;
+        ListAuthorResponseConverter converter;
+        public CommentService()
         {
-            throw new NotImplementedException();
+            comments = new Repository<Comment>();
+            commentRequest = new CommentRequestConverter();
+            commentResponse = new CommentResponseConverter();
+            converter = new ListAuthorResponseConverter();
+        }
+        public AuthorResponseDto Create(AuthorRequestDto dto)
+        {
+            authors.AddValue(authorRequest.FromDto(dto, authors.NextId));
+            return authorResponse.ToDto(authors.FindById(authors.NextId - 1));
         }
 
-        public long Delete(long id)
+        public void Delete(long id)
         {
-            throw new NotImplementedException();
+            authors.DeleteValue(id);
         }
 
-        public List<CommentResponseDto> GetAll()
+        public AuthorResponseDto? Read(long id) => authorResponse.ToDto(authors.FindById(id));
+
+
+        public AuthorResponseDto Update(AuthorRequestDto dto)
         {
-            throw new NotImplementedException();
+            authors.UpdateValue(authorRequest.FromDto(dto, dto.id), dto.id);
+            return authorResponse.ToDto(authors.FindById(dto.id));
         }
 
-        public CommentResponseDto? Read(long id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public CommentResponseDto Update(CommentRequestDto dto)
-        {
-            throw new NotImplementedException();
-        }
+        public List<AuthorResponseDto> GetAll() => converter.AuthorsResponse(authors.GetAuthors()).ToList();
     }
 }

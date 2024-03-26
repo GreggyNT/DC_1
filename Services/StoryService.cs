@@ -1,4 +1,5 @@
-﻿using lab_1.Dtos.RequestDtos;
+﻿using lab_1.Domain;
+using lab_1.Dtos.RequestDtos;
 using lab_1.Dtos.ResponseDtos;
 using lab_1.Repositories;
 
@@ -6,18 +7,18 @@ namespace lab_1.Services
 {
     public class StoryService : BaseService<StoryRequestDto, StoryResponseDto>
     {
-        private Stories _stories;
+        private Repository<Story> _stories;
         
-        public StoryService() => _stories = new Stories();
+        public StoryService() => _stories = new();
 
-        public Stories Stories { get => _stories; }
+        public Repository<Story> Stories { get => _stories; }
 
         public StoryResponseDto Create(StoryRequestDto dto)
         {
             throw new NotImplementedException();
         }
 
-        public long Delete(long id)
+        public void Delete(long id)
         {
             throw new NotImplementedException();
         }

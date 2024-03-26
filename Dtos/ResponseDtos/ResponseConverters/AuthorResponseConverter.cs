@@ -7,10 +7,11 @@ namespace lab_1.Dtos.ResponseDtos.ResponseConverters
         public AuthorResponseDto ToDto(Author author) 
         {
             AuthorResponseDto res = new AuthorResponseDto();
-            res._firstname = author.Firstname;
-            res._lastname = author.Lastname;
+            res.firstname = author.Firstname;
+            res.login = author.Login;
+            res.lastname = author.Lastname;
             res._id = author.Id;
-            res._password = author.Password; 
+            res.password = author.Password; 
             return res;
         }
     }

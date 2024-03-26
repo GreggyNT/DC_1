@@ -6,9 +6,9 @@ namespace lab_1.Repositories
 {
     public class Repository<T>
     {
-        private Dictionary<long, T> _Dict;
+        private Dictionary<long?, T> _Dict;
 
-        public long NextId { get => _Dict.Count + 1; }
+        public long NextId { get => _Dict.Count; }
         public Repository() { _Dict = new(); }
         public void AddValue(T value)
         {
@@ -20,14 +20,14 @@ namespace lab_1.Repositories
             _Dict.Remove(id);
         }
 
-        public T FindById(long id)
+        public T FindById(long? id)
         {
-            return _Dict[id - 1];
+            return _Dict[id];
         }
 
-        public void UpdateValue(long id)
+        public void UpdateValue(T entity, long? id)
         {
-            throw new NotImplementedException();
+            _Dict[id] = entity;
         }
 
         public IEnumerable<T> GetAuthors() => _Dict.Values;

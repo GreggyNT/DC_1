@@ -2,7 +2,7 @@
 {
     public abstract class BaseRequestDto
     {
-        public long? _id;
+        public long? id { get; set; }
 
     }
 }

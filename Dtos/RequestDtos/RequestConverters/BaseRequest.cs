@@ -4,6 +4,6 @@ namespace lab_1.Dtos.RequestDtos.RequestConverters
 {
     public interface BaseRequest<T,V>
     {
-        public T FromDto(V dto, long id);
+        public T FromDto(V dto, long? id);
     }
 }

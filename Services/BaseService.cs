@@ -8,7 +8,7 @@
 
         public V Update(T dto);
 
-        public long Delete(long id);
+        public void Delete(long id);
 
         public List<V> GetAll(); 
     }

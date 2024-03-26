@@ -2,9 +2,9 @@
 {
     public class AuthorResponseDto:BaseResponseDto
     {
-        public string? _login;
-        public string? _password;
-        public string? _firstname;
-        public string? _lastname;
+        public string? login { get; set; }
+        public string? password { get; set; }
+        public string? firstname { get; set; }
+        public string? lastname { get; set; }
     }
 }
