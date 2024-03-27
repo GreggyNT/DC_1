@@ -14,34 +14,34 @@ namespace lab_1.Services
         Repository<Comment> comments;
         CommentRequestConverter commentRequest;
         CommentResponseConverter commentResponse;
-        ListAuthorResponseConverter converter;
+        ListCommentResponseConverter converter;
         public CommentService()
         {
             comments = new Repository<Comment>();
             commentRequest = new CommentRequestConverter();
             commentResponse = new CommentResponseConverter();
-            converter = new ListAuthorResponseConverter();
+            converter = new ListCommentResponseConverter();
         }
-        public AuthorResponseDto Create(AuthorRequestDto dto)
+        public CommentResponseDto Create(CommentRequestDto dto)
         {
-            authors.AddValue(authorRequest.FromDto(dto, authors.NextId));
-            return authorResponse.ToDto(authors.FindById(authors.NextId - 1));
+            comments.AddValue(commentRequest.FromDto(dto, comments.NextId));
+            return commentResponse.ToDto(comments.FindById(comments.NextId - 1));
         }
 
         public void Delete(long id)
         {
-            authors.DeleteValue(id);
+            comments.DeleteValue(id);
         }
 
-        public AuthorResponseDto? Read(long id) => authorResponse.ToDto(authors.FindById(id));
+        public CommentResponseDto? Read(long id) => commentResponse.ToDto(comments.FindById(id));
 
 
-        public AuthorResponseDto Update(AuthorRequestDto dto)
+        public CommentResponseDto Update(CommentRequestDto dto)
         {
-            authors.UpdateValue(authorRequest.FromDto(dto, dto.id), dto.id);
-            return authorResponse.ToDto(authors.FindById(dto.id));
+            comments.UpdateValue(commentRequest.FromDto(dto, dto.id), dto.id);
+            return commentResponse.ToDto(comments.FindById(dto.id));
         }
 
-        public List<AuthorResponseDto> GetAll() => converter.AuthorsResponse(authors.GetAuthors()).ToList();
+        public List<CommentResponseDto> GetAll() => converter.CommentsResponse(comments.GetAuthors()).ToList();
     }
 }

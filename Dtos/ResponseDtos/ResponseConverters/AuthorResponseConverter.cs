@@ -2,7 +2,7 @@
 
 namespace lab_1.Dtos.ResponseDtos.ResponseConverters
 {
-    public class AuthorResponseConverter
+    public class AuthorResponseConverter:BaseResponse<AuthorResponseDto,Author>
     {
         public AuthorResponseDto ToDto(Author author) 
         {

@@ -1,6 +1,15 @@
-﻿namespace lab_1.Dtos.ResponseDtos.ResponseConverters
+﻿using lab_1.Domain;
+
+namespace lab_1.Dtos.ResponseDtos.ResponseConverters
 {
-    public class MarkerResponseConverter
+    public class MarkerResponseConverter : BaseResponse<MarkerResponseDto, Marker>
     {
+        public MarkerResponseDto ToDto(Marker entity)
+        {
+            var dto = new MarkerResponseDto();
+            dto._name = entity.Name;
+            dto._id = entity.Id;
+            return dto;
+        }
     }
 }
