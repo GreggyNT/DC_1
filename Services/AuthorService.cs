@@ -1,4 +1,5 @@
-﻿using lab_1.Domain;
+﻿using System.ComponentModel.DataAnnotations;
+using lab_1.Domain;
 using lab_1.Dtos.RequestDtos;
 using lab_1.Dtos.RequestDtos.RequestConverters;
 using lab_1.Dtos.ResponseDtos;
@@ -21,26 +22,33 @@ namespace lab_1.Services
             authorResponse = new AuthorResponseConverter();
             converter = new ListAuthorResponseConverter();
         }
-        public AuthorResponseDto Create(AuthorRequestDto dto)
+        public AuthorResponseDto? Create(AuthorRequestDto dto)
         {
            authors.AddValue(authorRequest.FromDto(dto, authors.NextId));
            return authorResponse.ToDto(authors.FindById(authors.NextId-1));
         }
 
-        public void Delete(long id)
+        public bool Delete(long id)
         {
-            authors.DeleteValue(id);
+            return authors.DeleteValue(id);
         }
 
         public AuthorResponseDto? Read(long id)=>authorResponse.ToDto(authors.FindById(id));
         
 
-        public AuthorResponseDto Update(AuthorRequestDto dto)
+        public AuthorResponseDto? Update(AuthorRequestDto dto)
         {
-            authors.UpdateValue(authorRequest.FromDto(dto, dto.id), dto.id);
-            return authorResponse.ToDto(authors.FindById(dto.id));
+            ICollection<ValidationResult> results = new List<ValidationResult>();
+            var test = authorRequest.FromDto(dto, dto.id);
+            if (Validator.TryValidateObject(test, new ValidationContext(test), results, validateAllProperties: true))
+            {
+                authors.UpdateValue(test, dto.id);
+                return authorResponse.ToDto(authors.FindById(dto.id));
+            }
+            return null;
+            
         }
 
-        public List<AuthorResponseDto> GetAll() => converter.AuthorsResponse(authors.GetAuthors()).ToList();
+        public List<AuthorResponseDto?> GetAll() => converter.AuthorsResponse(authors.GetAuthors()).ToList();
     }
 }

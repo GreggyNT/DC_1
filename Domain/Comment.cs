@@ -1,8 +1,11 @@
-﻿namespace lab_1.Domain
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace lab_1.Domain
 {
     public class Comment:BaseEntity
     {
         private long? _storyId;
+       
         private string _content;
 
         public Comment(long? id,long? storyId, string content) :base(id) 
@@ -12,6 +15,7 @@
         }
 
         public long? StoryId { get => _storyId;  }
+        [StringLength(2048,MinimumLength = 2)]
         public string Content {  get => _content; }
     }
 }

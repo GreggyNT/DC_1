@@ -7,8 +7,8 @@ namespace lab_1.Dtos.ResponseDtos.ResponseConverters
         public MarkerResponseDto ToDto(Marker entity)
         {
             var dto = new MarkerResponseDto();
-            dto._name = entity.Name;
-            dto._id = entity.Id;
+            dto.name = entity.Name;
+            dto.id = entity.Id;
             return dto;
         }
     }

@@ -6,7 +6,7 @@ namespace lab_1.Dtos.RequestDtos.RequestConverters
     {
         public Marker FromDto(MarkerRequestDto dto, long? id)
         {
-            return new Marker(id, dto._name);
+            return new Marker(id, dto.name);
         }
     }
 }

@@ -2,6 +2,6 @@
 {
     public class BaseResponseDto
     {
-        public long? _id { get; set; }
+        public long? id { get; set; }
     }
 }

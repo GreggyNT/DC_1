@@ -7,9 +7,9 @@ namespace lab_1.Dtos.ResponseDtos.ResponseConverters
         public CommentResponseDto ToDto(Comment entity)
         {
             CommentResponseDto dto = new CommentResponseDto();
-            dto._content = entity.Content;
-            dto._id = entity.Id;
-            dto._storyId = entity.StoryId;
+            dto.content = entity.Content;
+            dto.id = entity.Id;
+            dto.storyId = entity.StoryId;
             return dto;
         }
     }

@@ -1,15 +1,18 @@
-﻿namespace lab_1.Services
+﻿using lab_1.Dtos.ResponseDtos;
+
+namespace lab_1.Services
 {
-    public interface BaseService<T,V>
+    public interface BaseService<T, V>
+
     {
-        public V Create(T dto);
+    public V Create(T dto);
 
-        V? Read(long id);
+    V? Read(long id);
 
-        public V Update(T dto);
+    public V? Update(T dto);
 
-        public void Delete(long id);
+    public bool Delete(long id);
 
-        public List<V> GetAll(); 
+    public List<V> GetAll();
     }
 }

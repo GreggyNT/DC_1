@@ -10,7 +10,11 @@ namespace lab_1.Controllers
     [Route("api/v1.0/authors")]
     public class AuthorsController:ControllerBase
     {
-        AuthorService authorService = new AuthorService();
+        private BaseService<AuthorRequestDto,AuthorResponseDto> authorService;
+        public AuthorsController(BaseService<AuthorRequestDto,AuthorResponseDto> authorService)
+        {
+            this.authorService = authorService;
+        }
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public ActionResult<List<AuthorResponseDto>> GetAuthors() => Ok(authorService.GetAll());
@@ -23,12 +27,15 @@ namespace lab_1.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public ActionResult DeleteAuthor(long id)
         {
-            authorService.Delete(id);
-            return NoContent(); 
+            return authorService.Delete(id)?NoContent():NotFound(); 
         }
 
         [HttpPut]
-        public ActionResult<AuthorResponseDto> UpdateAuthor([FromBody] AuthorRequestDto dto) => Ok(authorService.Update(dto));
+        public ActionResult<AuthorResponseDto> UpdateAuthor([FromBody] AuthorRequestDto dto)
+        {
+
+            return authorService.Update(dto) == null ? NotFound(dto) : Ok(dto);
+        }
 
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]

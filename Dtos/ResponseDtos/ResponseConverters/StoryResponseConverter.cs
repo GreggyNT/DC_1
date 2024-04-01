@@ -7,11 +7,12 @@ namespace lab_1.Dtos.ResponseDtos.ResponseConverters
         public StoryResponseDto ToDto(Story entity)
         {
             var dto = new StoryResponseDto();
-            dto._title = entity.Title;
-            dto._created = entity.Created;
-            dto._authorId = entity.AuthorId;
-            dto._id = entity.Id;
-            dto._modified = entity.Modified;
+            dto.content = entity.Content;
+            dto.title = entity.Title;
+            dto.created = entity.Created;
+            dto.authorId = entity.AuthorId;
+            dto.id = entity.Id;
+            dto.modified = entity.Modified;
             return dto;
         }
     }

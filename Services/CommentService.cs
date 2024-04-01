@@ -1,4 +1,5 @@
-﻿using lab_1.Domain;
+﻿using System.ComponentModel.DataAnnotations;
+using lab_1.Domain;
 using lab_1.Dtos.RequestDtos;
 using lab_1.Dtos.RequestDtos.RequestConverters;
 using lab_1.Dtos.ResponseDtos;
@@ -22,15 +23,15 @@ namespace lab_1.Services
             commentResponse = new CommentResponseConverter();
             converter = new ListCommentResponseConverter();
         }
-        public CommentResponseDto Create(CommentRequestDto dto)
+        public CommentResponseDto? Create(CommentRequestDto dto)
         {
             comments.AddValue(commentRequest.FromDto(dto, comments.NextId));
             return commentResponse.ToDto(comments.FindById(comments.NextId - 1));
         }
 
-        public void Delete(long id)
+        public bool Delete(long id)
         {
-            comments.DeleteValue(id);
+            return comments.DeleteValue(id);
         }
 
         public CommentResponseDto? Read(long id) => commentResponse.ToDto(comments.FindById(id));
@@ -38,8 +39,14 @@ namespace lab_1.Services
 
         public CommentResponseDto Update(CommentRequestDto dto)
         {
-            comments.UpdateValue(commentRequest.FromDto(dto, dto.id), dto.id);
-            return commentResponse.ToDto(comments.FindById(dto.id));
+            ICollection<ValidationResult> results = new List<ValidationResult>();
+            var test = commentRequest.FromDto(dto, dto.id);
+            if (Validator.TryValidateObject(test, new ValidationContext(test), results, validateAllProperties: true))
+            {
+                comments.UpdateValue(test, dto.id);
+                return  commentResponse.ToDto( comments.FindById(dto.id));
+            }
+            return null;
         }
 
         public List<CommentResponseDto> GetAll() => converter.CommentsResponse(comments.GetAuthors()).ToList();

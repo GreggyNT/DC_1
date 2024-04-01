@@ -9,25 +9,32 @@ namespace lab_1.Controllers
     [Route("api/v1.0/comments")]
     public class CommentsController : ControllerBase
     {
-        CommentService authorService = new();
+        private BaseService<CommentRequestDto,CommentResponseDto> authorService;
+        public CommentsController(BaseService<CommentRequestDto,CommentResponseDto> authorService)
+        {
+            this.authorService = authorService;
+        }
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public ActionResult<List<CommentResponseDto>> GetAuthors() => Ok(authorService.GetAll());
 
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        public ActionResult<CommentResponseDto> CreateAuthor([FromBody] CommentRequestDto dto) => CreatedAtAction("CreateAuthor", authorService.Create(dto));
+        public ActionResult<CommentResponseDto> CreateAuthor([FromBody]CommentRequestDto dto) => CreatedAtAction("CreateAuthor", authorService.Create(dto));
         [HttpDelete("{id}")]
 
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public ActionResult DeleteAuthor(long id)
         {
-            authorService.Delete(id);
-            return NoContent();
+            return authorService.Delete(id)?NoContent():NotFound(); 
         }
 
         [HttpPut]
-        public ActionResult<CommentResponseDto> UpdateAuthor([FromBody] CommentRequestDto dto) => Ok(authorService.Update(dto));
+        public ActionResult<CommentResponseDto> UpdateAuthor([FromBody] CommentRequestDto dto)
+        {
+
+            return authorService.Update(dto) == null ? NotFound(dto) : Ok(dto);
+        }
 
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]

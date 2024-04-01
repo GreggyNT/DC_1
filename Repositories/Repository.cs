@@ -15,14 +15,24 @@ namespace lab_1.Repositories
             _Dict.Add(NextId, value);
         }
 
-        public void DeleteValue(long id)
+        public bool DeleteValue(long id)
         {
-            _Dict.Remove(id);
+            return _Dict.Remove(id);
         }
 
         public T FindById(long? id)
         {
-            return _Dict[id];
+            T res;
+            try
+            {
+                res = _Dict[id];
+            }
+            catch (KeyNotFoundException)
+            {
+                Console.Error.WriteLine("Could not find");
+                res = default(T);
+            }
+            return res;
         }
 
         public void UpdateValue(T entity, long? id)

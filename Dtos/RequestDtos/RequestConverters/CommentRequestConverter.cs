@@ -6,7 +6,7 @@ namespace lab_1.Dtos.RequestDtos.RequestConverters
     {
         public Comment FromDto(CommentRequestDto dto, long? id)
         {
-            return new Comment(id, dto._storyId, dto._content);
+            return new Comment(id, dto.storyId, dto.content);
         }
     }
 }

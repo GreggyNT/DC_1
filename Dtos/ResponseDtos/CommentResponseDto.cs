@@ -2,7 +2,7 @@
 {
     public class CommentResponseDto:BaseResponseDto
     {
-        public long? _storyId { get; set; }
-        public string? _content { get; set; }
+        public long? storyId { get; set; }
+        public string? content { get; set; }
     }
 }
