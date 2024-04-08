@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace lab_1.Entities;
 
-public partial class TblMarker
+public partial class TblMarker:TblBase
 {
 
     public TblMarker(){}
@@ -12,7 +12,6 @@ public partial class TblMarker
         Id = id;
         Name = name;
     }
-    public long Id { get; set; }
 
     public string Name { get; set; } = null!;
     

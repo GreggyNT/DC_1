@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace lab_1.Entities;
 
-public partial class TblComment
+public partial class TblComment:TblBase
 {
     
     public TblComment()
@@ -17,8 +17,7 @@ public partial class TblComment
         Content = content;
       
     }
-
-    public long Id { get; set; }
+    
 
     public long StoryId { get; set; }
 

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace lab_1.Entities;
 
-public partial class TblAuthor
+public partial class TblAuthor:TblBase
 {
 
     public TblAuthor(long id, string login, string password, string firstname, string lastname)
@@ -15,7 +15,7 @@ public partial class TblAuthor
         Lastname = lastname;
     }
 
-    public long Id { get; set; }
+
 
     public string Login { get; set; } = null!;
 

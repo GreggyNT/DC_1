@@ -3,11 +3,9 @@ using System.Collections.Generic;
 
 namespace lab_1.Entities;
 
-public partial class TblStoryMarker
+public partial class TblStoryMarker:TblBase
 {
     public TblStoryMarker(){}
-    public long Id { get; set; }
-
     public long StoryId { get; set; }
 
     public long MarkerId { get; set; }

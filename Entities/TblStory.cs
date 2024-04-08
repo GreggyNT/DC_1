@@ -3,13 +3,12 @@ using System.Collections.Generic;
 
 namespace lab_1.Entities;
 
-public partial class TblStory
+public partial class TblStory:TblBase
 {
     public TblStory()
     {
     }
-
-    public long Id { get; set; }
+    
 
     public long AuthorId { get; set; }
 
