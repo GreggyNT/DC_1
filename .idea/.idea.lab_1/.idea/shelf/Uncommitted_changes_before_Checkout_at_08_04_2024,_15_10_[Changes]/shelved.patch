@@ -1,0 +1,15 @@
+Index: Services/BaseService.cs
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>using lab_1.Dtos.ResponseDtos;\n\nnamespace lab_1.Services\n{\n    public interface BaseService<T, V>\n\n    {\n    public V Create(T dto);\n\n    V? Read(long id);\n\n    public V? Update(T dto);\n\n    public bool Delete(long id);\n\n    public List<V> GetAll();\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/Services/BaseService.cs b/Services/BaseService.cs
+--- a/Services/BaseService.cs	(revision 09caf8175738e05fdffb21c775a4d919ca8961fe)
++++ b/Services/BaseService.cs	(date 1712578060099)
+@@ -1,4 +1,3 @@
+-using lab_1.Dtos.ResponseDtos;
+ 
+ namespace lab_1.Services
+ {
