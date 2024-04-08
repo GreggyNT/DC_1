@@ -1,8 +1,8 @@
 using lab_1.Context;
-using lab_1.Domain;
 using lab_1.Dtos.RequestDtos;
+using lab_1.Dtos.RequestDtos.RequestConverters;
 using lab_1.Dtos.ResponseDtos;
-using lab_1.Repositories;
+using lab_1.Entities;
 using lab_1.Services;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,6 +14,11 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddSingleton<BaseRequest<TblAuthor,AuthorRequestDto> >();
+builder.Services.AddSingleton<BaseRequest<TblComment,CommentRequestDto> >(); 
+builder.Services.AddSingleton<BaseRequest<TblMarker,MarkerRequestDto> >(); 
+builder.Services.AddSingleton<BaseRequest<TblStory,StoryRequestDto> >(); 
+builder.Services.AddSingleton<BaseRequest<TblAuthor,AuthorRequestDto> >(); 
 builder.Services.AddScoped<BaseService<AuthorRequestDto, AuthorResponseDto>, AuthorService>();
 builder.Services.AddDbContext<AppbContext>(opt =>
 {

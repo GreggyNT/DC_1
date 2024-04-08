@@ -9,6 +9,7 @@ public partial class AppbContext : DbContext
 {
     public AppbContext()
     {
+        
     }
 
     public AppbContext(DbContextOptions<AppbContext> options)
