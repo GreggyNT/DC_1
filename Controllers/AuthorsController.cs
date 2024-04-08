@@ -1,7 +1,11 @@
-﻿using lab_1.Domain;
+﻿using lab_1.Context;
+using lab_1.Domain;
 using lab_1.Dtos.RequestDtos;
+using lab_1.Dtos.RequestDtos.RequestConverters;
 using lab_1.Dtos.ResponseDtos;
-using lab_1.Services;
+using lab_1.Dtos.ResponseDtos.ResponseConverters;
+using lab_1.Entities;
+
 using Microsoft.AspNetCore.Mvc;
 
 namespace lab_1.Controllers
@@ -21,13 +25,17 @@ namespace lab_1.Controllers
 
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        public ActionResult<AuthorResponseDto> CreateAuthor([FromBody]AuthorRequestDto dto) => CreatedAtAction("CreateAuthor", authorService.Create(dto));
+        public async Task<ActionResult<AuthorResponseDto>> CreateAuthor([FromBody] AuthorRequestDto dto)
+        {
+           return CreatedAtAction("CreateAuthor", await authorService.Create(dto));
+        }
+
         [HttpDelete("{id}")]
 
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public ActionResult DeleteAuthor(long id)
         {
-            return authorService.Delete(id)?NoContent():NotFound(); 
+            return authorService.Delete(id).Result?NoContent():NotFound(); 
         }
 
         [HttpPut]
@@ -39,7 +47,7 @@ namespace lab_1.Controllers
 
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public ActionResult<AuthorResponseDto> GetAuthor(long id) => Ok(authorService.Read(id));
+        public async Task<ActionResult<AuthorResponseDto>> GetAuthor(long id) => Ok(await authorService.Read(id));
 
     }
 }

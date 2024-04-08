@@ -2,8 +2,7 @@
 using lab_1.Dtos.ResponseDtos;
 using lab_1.Services;
 using Microsoft.AspNetCore.Mvc;
-
-namespace lab_1.Controllers
+/*namespace lab_1.Controllers
 {
     [ApiController]
     [Route("api/v1.0/storys")]
@@ -41,4 +40,4 @@ namespace lab_1.Controllers
         public ActionResult<CommentResponseDto> GetStory(long id) => Ok(storyService.Read(id));
 
     }
-}
+}*/

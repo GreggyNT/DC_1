@@ -1,6 +1,10 @@
+using lab_1.Context;
+using lab_1.Domain;
 using lab_1.Dtos.RequestDtos;
 using lab_1.Dtos.ResponseDtos;
+using lab_1.Repositories;
 using lab_1.Services;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,10 +14,11 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddSingleton<BaseService<AuthorRequestDto,AuthorResponseDto>,AuthorService>();
-builder.Services.AddSingleton<BaseService<StoryRequestDto,StoryResponseDto>,StoryService>();
-builder.Services.AddSingleton<BaseService<CommentRequestDto,CommentResponseDto>,CommentService>();
-builder.Services.AddSingleton<BaseService<MarkerRequestDto,MarkerResponseDto>,MarkerService>();
+builder.Services.AddScoped<BaseService<AuthorRequestDto, AuthorResponseDto>, AuthorService>();
+builder.Services.AddDbContext<AppbContext>(opt =>
+{
+    opt.UseNpgsql("Server=localhost;Database=distcomp;Port=5432;User Id =postgres;Password=postgres;");
+});
 
 var app = builder.Build();
 
@@ -25,9 +30,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
-
 app.MapControllers();
+Console.WriteLine();
 
 app.Run();

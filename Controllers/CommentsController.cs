@@ -3,7 +3,7 @@ using lab_1.Dtos.ResponseDtos;
 using lab_1.Services;
 using Microsoft.AspNetCore.Mvc;
 
-namespace lab_1.Controllers
+/*namespace lab_1.Controllers
 {
     [ApiController]
     [Route("api/v1.0/comments")]
@@ -42,3 +42,4 @@ namespace lab_1.Controllers
 
     }
 }
+*/

@@ -1,9 +1,10 @@
 ﻿using lab_1.Domain;
+using lab_1.Entities;
 
 namespace lab_1.Dtos.RequestDtos.RequestConverters
 {
-    public class AuthorRequestConverter:BaseRequest<Author,AuthorRequestDto>
+    public class AuthorRequestConverter:BaseRequest<TblAuthor,AuthorRequestDto>
     {
-        public  Author FromDto (AuthorRequestDto dto,long? id)=>new Author(id,dto?.login,dto?.password,dto?.firstname,dto?.lastname);
+        public TblAuthor FromDto (AuthorRequestDto dto,long id)=>new TblAuthor(id,dto?.login,dto?.password,dto?.firstname,dto?.lastname);
     }
 }

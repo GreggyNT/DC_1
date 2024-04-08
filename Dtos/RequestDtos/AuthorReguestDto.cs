@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using lab_1.Entities;
+using Newtonsoft.Json;
 
 namespace lab_1.Dtos.RequestDtos
 {
@@ -12,6 +13,7 @@ namespace lab_1.Dtos.RequestDtos
         public string? firstname { get; set; }
 
         public string? lastname { get; set; }
+        
 
 
     }
