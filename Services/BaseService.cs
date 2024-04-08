@@ -1,5 +1,4 @@
-﻿using lab_1.Dtos.ResponseDtos;
-
+﻿
 namespace lab_1.Services
 {
     public interface BaseService<T, V>
