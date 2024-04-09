@@ -81,12 +81,12 @@ public partial class AppbContext : DbContext
 
         modelBuilder.Entity<TblStory>(entity =>
         {
-            entity.HasKey(e => new { e.Id, e.Title }).HasName("PK");
+            entity.HasKey(e => e.Id).HasName("PK");
 
             entity.ToTable("tblStory", "tbl");
 
             entity.HasIndex(e => e.Id, "uniue_i2").IsUnique();
-
+            entity.HasIndex(e => e.Title, "u_title").IsUnique();
             entity.Property(e => e.Id)
                 .HasDefaultValueSql("'-1'::integer")
                 .HasColumnName("id");

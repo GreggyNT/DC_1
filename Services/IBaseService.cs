@@ -2,7 +2,7 @@ namespace lab_1.Services
 {
     public interface IBaseService<T, V>
     {
-        public V Create(T dto);
+        public V? Create(T dto);
 
         V? Read(long id);
 
@@ -10,6 +10,6 @@ namespace lab_1.Services
 
         public bool Delete(long id);
 
-        public List<V> GetAll();
+        public IEnumerable<V> GetAll();
     }
 }

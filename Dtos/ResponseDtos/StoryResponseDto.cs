@@ -2,10 +2,10 @@
 {
     public class StoryResponseDto:BaseResponseDto
     {
-        public long? authorId { get; set; }
-        public string? title { get; set; }
-        public string? content { get; set; }
-        public DateTime created { get; set; }
-        public DateTime modified { get; set; }
+        public long? AuthorId { get; set; }
+        public string? Title { get; set; }
+        public string? Content { get; set; }
+        public DateOnly Created { get; set; }
+        public DateOnly Modified { get; set; }
     }
 }

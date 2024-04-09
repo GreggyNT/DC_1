@@ -1,18 +1,22 @@
-﻿using lab_1.Dtos.RequestDtos;
+﻿using FluentValidation;
+using lab_1.Dtos.RequestDtos;
 using lab_1.Dtos.ResponseDtos;
 using lab_1.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
-/*namespace lab_1.Controllers
+namespace lab_1.Controllers
 {
     [ApiController]
     [Route("api/v1.0/markers")]
     public class MarkersController : ControllerBase
     {
-        private BaseService<MarkerRequestDto,MarkerResponseDto> authorService;
-        public MarkersController(BaseService<MarkerRequestDto,MarkerResponseDto> authorService)
+        private IBaseService<MarkerRequestDto,MarkerResponseDto> authorService;
+        private IValidator<MarkerRequestDto> _authorValidator;
+        public MarkersController(IBaseService<MarkerRequestDto,MarkerResponseDto> authorService,IValidator<MarkerRequestDto> authorValidator)
         {
             this.authorService = authorService;
+            _authorValidator = authorValidator;
         }
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -20,7 +24,17 @@ using Microsoft.AspNetCore.Mvc;
 
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        public ActionResult<MarkerResponseDto> CreateAuthor([FromBody]MarkerRequestDto dto) => CreatedAtAction("CreateAuthor", authorService.Create(dto));
+        public ActionResult<MarkerResponseDto> CreateAuthor([FromBody]MarkerRequestDto dto)  { try
+            {
+                if (_authorValidator.Validate(dto).IsValid)
+                    return CreatedAtAction("CreateAuthor", authorService.Create(dto));
+            }
+            catch (DbUpdateException e)
+            {                   
+                return StatusCode(StatusCodes.Status403Forbidden);
+            }
+            return BadRequest();
+        }
         [HttpDelete("{id}")]
 
         [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -41,4 +55,4 @@ using Microsoft.AspNetCore.Mvc;
         public ActionResult<CommentResponseDto> GetAuthor(long id) => Ok(authorService.Read(id));
 
     }
-}*/
+}

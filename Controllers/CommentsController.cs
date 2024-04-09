@@ -1,18 +1,23 @@
-﻿using lab_1.Dtos.RequestDtos;
+﻿using FluentValidation;
+using lab_1.Dtos.RequestDtos;
 using lab_1.Dtos.ResponseDtos;
 using lab_1.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
-/*namespace lab_1.Controllers
+namespace lab_1.Controllers
 {
     [ApiController]
     [Route("api/v1.0/comments")]
     public class CommentsController : ControllerBase
     {
-        private BaseService<CommentRequestDto,CommentResponseDto> authorService;
-        public CommentsController(BaseService<CommentRequestDto,CommentResponseDto> authorService)
+        private IBaseService<CommentRequestDto,CommentResponseDto> authorService;
+        private IValidator<CommentRequestDto> _authorValidator;
+        public CommentsController(IBaseService<CommentRequestDto,CommentResponseDto> authorService, IValidator<CommentRequestDto> authorValidator)
         {
             this.authorService = authorService;
+            _authorValidator = authorValidator;
+            
         }
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -20,7 +25,18 @@ using Microsoft.AspNetCore.Mvc;
 
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        public ActionResult<CommentResponseDto> CreateAuthor([FromBody]CommentRequestDto dto) => CreatedAtAction("CreateAuthor", authorService.Create(dto));
+        public ActionResult<CommentResponseDto> CreateAuthor([FromBody]CommentRequestDto dto)  {
+            try
+            {
+                if (_authorValidator.Validate(dto).IsValid)
+                    return CreatedAtAction("CreateAuthor", authorService.Create(dto));
+            }
+            catch (DbUpdateException e)
+            {                   
+                return StatusCode(StatusCodes.Status403Forbidden);
+            }
+            return BadRequest();
+        }
         [HttpDelete("{id}")]
 
         [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -42,4 +58,3 @@ using Microsoft.AspNetCore.Mvc;
 
     }
 }
-*/

@@ -1,12 +1,13 @@
-﻿using lab_1.Context;
-using lab_1.Domain;
+﻿using FluentValidation;
+using lab_1.Context;
 using lab_1.Dtos.RequestDtos;
 using lab_1.Dtos.RequestDtos.RequestConverters;
 using lab_1.Dtos.ResponseDtos;
 using lab_1.Dtos.ResponseDtos.ResponseConverters;
 using lab_1.Entities;
-
+using lab_1.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace lab_1.Controllers
 {
@@ -14,20 +15,32 @@ namespace lab_1.Controllers
     [Route("api/v1.0/authors")]
     public class AuthorsController:ControllerBase
     {
-        private BaseService<AuthorRequestDto,AuthorResponseDto> authorService;
-        public AuthorsController(BaseService<AuthorRequestDto,AuthorResponseDto> authorService)
+        private IBaseService<AuthorRequestDto,AuthorResponseDto> _authorService;
+        private IValidator<AuthorRequestDto> _authorValidator;
+        
+        public AuthorsController(IBaseService<AuthorRequestDto,AuthorResponseDto> authorService, IValidator<AuthorRequestDto> authorValidator)
         {
-            this.authorService = authorService;
+            _authorService = authorService;
+            _authorValidator = authorValidator;
         }
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public ActionResult<List<AuthorResponseDto>> GetAuthors() => Ok(authorService.GetAll());
+        public ActionResult<List<AuthorResponseDto>> GetAuthors() => Ok(_authorService.GetAll());
 
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        public async Task<ActionResult<AuthorResponseDto>> CreateAuthor([FromBody] AuthorRequestDto dto)
+        public ActionResult<AuthorResponseDto> CreateAuthor([FromBody] AuthorRequestDto dto)
         {
-           return CreatedAtAction("CreateAuthor", await authorService.Create(dto));
+            try
+            {
+                if (_authorValidator.Validate(dto).IsValid)
+                    return CreatedAtAction("CreateAuthor", _authorService.Create(dto));
+            }
+            catch (DbUpdateException e)
+            {                   
+                return StatusCode(StatusCodes.Status403Forbidden);
+            }
+            return BadRequest();
         }
 
         [HttpDelete("{id}")]
@@ -35,19 +48,20 @@ namespace lab_1.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public ActionResult DeleteAuthor(long id)
         {
-            return authorService.Delete(id).Result?NoContent():NotFound(); 
+            
+            return _authorService.Delete(id)?NoContent():NotFound(); 
         }
 
         [HttpPut]
         public ActionResult<AuthorResponseDto> UpdateAuthor([FromBody] AuthorRequestDto dto)
         {
 
-            return authorService.Update(dto) == null ? NotFound(dto) : Ok(dto);
+            return _authorService.Update(dto) == null ? NotFound(dto) : Ok(dto);
         }
 
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<AuthorResponseDto>> GetAuthor(long id) => Ok(await authorService.Read(id));
+        public ActionResult<AuthorResponseDto> GetAuthor(long id) => Ok( _authorService.Read(id));
 
     }
 }

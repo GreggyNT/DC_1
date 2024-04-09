@@ -2,7 +2,7 @@
 {
     public class CommentRequestDto : BaseRequestDto
     {
-        public long? storyId { get; set; }
-        public string? content { get; set; }
+        public long? StoryId { get; set; }
+        public string? Content { get; set; }
     }
 }
