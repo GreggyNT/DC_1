@@ -1,3 +1,4 @@
+using Cassandra.Mapping;
 using FluentValidation;
 using lab_1.Context;
 using lab_1.Dtos.RequestDtos;
@@ -25,7 +26,8 @@ builder.Services.AddTransient<IBaseService<AuthorRequestDto, AuthorResponseDto>,
     .AddTransient<IValidator<CommentRequestDto>, CommentValidator>().
     AddTransient<IValidator<StoryRequestDto>,StoryValidator>().
     AddTransient<IValidator<MarkerRequestDto>,MarkerValidator>();
-
+MappingConfiguration.Global.Define(new Map<TblComment>().TableName("tbl_comments").ClusteringKey(u=>u.Country)
+    .PartitionKey(u => u.Id,u=>u.Country).Column(u=>u.Content,cm=>cm.WithName("content")).Column(u=>u.StoryId,cm=>cm.WithName("storyId")));
 builder.Services.AddDbContext<AppbContext>(opt => {
     opt.UseNpgsql("Server=localhost;Database=distcomp;Port=5432;User Id =postgres;Password=postgres;");
 });

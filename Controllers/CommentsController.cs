@@ -50,7 +50,7 @@ namespace lab_1.Controllers
         {
 
             return authorService.Update(dto) == null ? NotFound(dto) : Ok(dto);
-        }
+            }
 
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
