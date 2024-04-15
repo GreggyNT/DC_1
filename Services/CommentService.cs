@@ -15,6 +15,7 @@ public class CommentService : IBaseService<CommentRequestDto, CommentResponseDto
 {
     private ISession _context;
     private Mapper mapper;
+    private CommentsProducer _commentsProducer;
     private BaseRequest<TblComment, CommentRequestDto> _request;
     private BaseResponse<CommentResponseDto, TblComment> _response;
 
@@ -27,14 +28,20 @@ public class CommentService : IBaseService<CommentRequestDto, CommentResponseDto
         _request = new();
         _response = new();
         mapper = new (_context);
+        _commentsProducer = new CommentsProducer();
 
     }
 
-    public CommentResponseDto Create(CommentRequestDto dto)
+    public  CommentResponseDto Create(CommentRequestDto dto)
     {
         dto.Id = _context.Execute("select count(*) from tbl_comments").FirstOrDefault().GetValue<long>(0);
         var entity = _request.FromDto(dto);
         mapper.Insert(entity);
+        using (_commentsProducer)
+        {
+            _commentsProducer.Produce("inTopic", "Sent");
+        }
+
         return _response.ToDto(entity);
     }
 
