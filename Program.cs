@@ -18,7 +18,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddTransient<IBaseService<AuthorRequestDto, AuthorResponseDto>, AuthorService>()
-    .AddTransient<IBaseService<CommentRequestDto, CommentResponseDto>, CommentService>()
+    .AddTransient<IAsyncService<CommentRequestDto, CommentResponseDto>, CommentService>()
     .AddTransient<IBaseService<MarkerRequestDto, MarkerResponseDto>, MarkerService>()
     .AddTransient<IBaseService<StoryRequestDto, StoryResponseDto>, StoryService>()
     .AddTransient<IValidator<AuthorRequestDto>, AuthorValidator>()
