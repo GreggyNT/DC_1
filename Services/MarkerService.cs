@@ -80,4 +80,9 @@ public class MarkerService:IBaseService<MarkerRequestDto,MarkerResponseDto>
             }
         }
     }
+
+    public Task<MarkerResponseDto> CreateAsync(MarkerRequestDto dto)
+    {
+        throw new NotImplementedException();
+    }
 }

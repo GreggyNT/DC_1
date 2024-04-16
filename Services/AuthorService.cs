@@ -78,4 +78,9 @@ public class AuthorService : IBaseService<AuthorRequestDto, AuthorResponseDto>
             }
         }
     }
+
+    public Task<AuthorResponseDto> CreateAsync(AuthorRequestDto dto)
+    {
+        throw new NotImplementedException();
+    }
 }

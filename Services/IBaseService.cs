@@ -11,5 +11,7 @@ namespace lab_1.Services
         public bool Delete(long id);
 
         public IEnumerable<V> GetAll();
+
+        public Task<V> CreateAsync(T dto);
     }
 }

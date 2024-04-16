@@ -1,4 +1,7 @@
-﻿using FluentValidation;
+﻿using System.Diagnostics;
+using System.Net;
+using Confluent.Kafka;
+using FluentValidation;
 using lab_1.Dtos.RequestDtos;
 using lab_1.Dtos.ResponseDtos;
 using lab_1.Services;
@@ -25,11 +28,11 @@ namespace lab_1.Controllers
 
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        public ActionResult<CommentResponseDto> CreateAuthor([FromBody]CommentRequestDto dto)  {
+        public async Task<ActionResult<CommentResponseDto>> CreateAuthor([FromBody]CommentRequestDto dto)  {
             try
             {
                 if (_authorValidator.Validate(dto).IsValid)
-                    return CreatedAtAction("CreateAuthor", authorService.Create(dto));
+                    return CreatedAtAction("CreateAuthor", await authorService.CreateAsync(dto));
             }
             catch (DbUpdateException e)
             {                   
@@ -55,6 +58,6 @@ namespace lab_1.Controllers
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public ActionResult<CommentResponseDto> GetAuthor(long id) => Ok(authorService.Read(id));
-
+        
     }
 }

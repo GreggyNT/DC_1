@@ -83,4 +83,9 @@ public class StoryService:IBaseService<StoryRequestDto,StoryResponseDto>
             }
         }
     }
+
+    public Task<StoryResponseDto> CreateAsync(StoryRequestDto dto)
+    {
+        throw new NotImplementedException();
+    }
 }
