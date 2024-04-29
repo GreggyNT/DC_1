@@ -33,4 +33,8 @@ services:
       interval: 5s
       timeout: 10s
       retries: 3
-    
+  redis:
+    image: redis:alpine
+    container_name: redis
+    ports:
+      - "6379:6379"

@@ -30,7 +30,11 @@ MappingConfiguration.Global.Define(new Map<TblComment>().TableName("tbl_comments
 builder.Services.AddDbContext<AppbContext>(opt => {
     opt.UseNpgsql("Server=localhost;Database=distcomp;Port=5432;User Id =postgres;Password=postgres;");
 });
-
+builder.Services.AddStackExchangeRedisCache(opt =>
+{
+    opt.Configuration = "localhost";
+    opt.InstanceName = "local";
+});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
