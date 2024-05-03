@@ -61,15 +61,15 @@ namespace lab_1.Controllers
 
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async  Task<ActionResult<AuthorResponseDto>> GetAuthor(long id)
+        public async  Task<ActionResult<StoryResponseDto>> GetAuthor(long id)
         {
-            var res = JsonConvert.DeserializeObject(await _redis.GetStringAsync($"markers/{id}"));
-            if (res == null)
+            var res = await _redis.GetStringAsync($"storys/{id}");
+            if (String.IsNullOrEmpty(res))
             {
-                res = _authorService.Read(id);
-                await _redis.SetStringAsync($"markers/{id}", JsonConvert.SerializeObject(res));
+                res = JsonConvert.SerializeObject( _authorService.Read(id));
+                await _redis.SetStringAsync($"markers/{id}", res);
             }
-            return Ok(res);
+            return Ok(JsonConvert.DeserializeObject<StoryResponseDto>(res));
         }
     }
 }

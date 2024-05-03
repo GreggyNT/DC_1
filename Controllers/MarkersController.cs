@@ -4,6 +4,8 @@ using lab_1.Dtos.ResponseDtos;
 using lab_1.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Distributed;
+using Newtonsoft.Json;
 
 namespace lab_1.Controllers
 {
@@ -13,10 +15,12 @@ namespace lab_1.Controllers
     {
         private IBaseService<MarkerRequestDto,MarkerResponseDto> authorService;
         private IValidator<MarkerRequestDto> _authorValidator;
-        public MarkersController(IBaseService<MarkerRequestDto,MarkerResponseDto> authorService,IValidator<MarkerRequestDto> authorValidator)
+        private IDistributedCache _redis;
+        public MarkersController(IBaseService<MarkerRequestDto,MarkerResponseDto> authorService,IValidator<MarkerRequestDto> authorValidator, IDistributedCache redis)
         {
             this.authorService = authorService;
             _authorValidator = authorValidator;
+            _redis = redis;
         }
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -52,7 +56,15 @@ namespace lab_1.Controllers
 
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public ActionResult<CommentResponseDto> GetAuthor(long id) => Ok(authorService.Read(id));
-
+        public async Task<ActionResult<MarkerResponseDto>> GetAuthor(long id)
+        {
+            var res = await _redis.GetStringAsync($"markers/{id}");
+            if (String.IsNullOrEmpty(res))
+            {
+                res = JsonConvert.SerializeObject(authorService.Read(id));
+                await _redis.SetStringAsync($"markers/{id}", res);
+            }
+            return Ok(JsonConvert.DeserializeObject<MarkerResponseDto>(res));
+        }
     }
 }
